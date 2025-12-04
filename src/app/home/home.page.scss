@@ -1,27 +1,532 @@
-#container {
-  text-align: center;
+/* ============================================
+   DIÁRIO FAÍSCA - TEMA RETRO ARCADE PIXEL ART
+   ============================================ */
 
+/* Fonte Pixel Art - Importar no seu projeto */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ============================================
+   VARIÁVEIS GLOBAIS - PALETA ARCADE VERDE
+   ============================================ */
+:root {
+  --pixel-yellow: #FFD700;
+  --pixel-orange: #FF6B00;
+  --pixel-red: #FF0040;
+  --pixel-purple: #8B00FF;
+  --pixel-blue: #00B8FF;
+  --pixel-cyan: #00FFD4;
+  --pixel-green: #00FF41;
+  --pixel-pink: #FF10F0;
+  
+  --bg-dark: #0a1f0a;
+  --bg-panel: #0d2e0d;
+  --bg-card: #0f3a0f;
+  --border-bright: #00FF41;
+  --text-main: #00FF41;
+  --text-secondary: #FFD700;
+  
+  --shadow-glow: 0 0 10px rgba(0, 255, 65, 0.5),
+                 0 0 20px rgba(0, 255, 65, 0.3),
+                 0 0 30px rgba(0, 255, 65, 0.1);
+  
+  --shadow-glow-blue: 0 0 10px rgba(0, 184, 255, 0.5),
+                      0 0 20px rgba(0, 184, 255, 0.3);
+}
+
+/* ============================================
+   RESET E BASE
+   ============================================ */
+* {
+  font-family: 'Press Start 2P', cursive !important;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+ion-app {
+  background: #0a1f0a;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 65, 0.1) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(0, 255, 65, 0.1) 3px
+    );
+}
+
+/* ============================================
+   HEADER/TOOLBAR - ESTILO ARCADE VERDE RETRO
+   ============================================ */
+ion-header,
+ion-toolbar,
+ion-toolbar[color="primary"],
+ion-header ion-toolbar,
+.header-md::after,
+.toolbar-background {
+
+  --background: #0d2e0d !important;
+  background: #0d2e0d !important;
+  background-color: #0d2e0d !important;
+  --border-color: #00FF41 !important;
+  border: 2px solid #00FF41 !important;
+  border-style: solid !important;
+
+  box-shadow: 
+    inset 0 0 20px rgba(0, 255, 65, 0.2),
+    0 0 10px rgba(0, 255, 65, 0.3) !important;
+  position: relative;
+}
+
+/* Sobrescrever cores do tema primary */
+ion-toolbar[color="primary"]::part(native) {
+  background: #0d2e0d !important;
+  background-color: #0d2e0d !important;
+}
+
+/* Forçar fundo verde em todos os elementos do header */
+ion-header::before,
+ion-header::after,
+ion-toolbar::after,
+.toolbar-background-md,
+.toolbar-background-ios {
+  background: #0d2e0d !important;
+  background-color: #0d2e0d !important;
+}
+
+ion-toolbar::before {
+  content: '';
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent,
+    #00FF41,
+    transparent
+  ) !important;
+  animation: scanline 3s linear infinite;
+  z-index: 10;
+}
+
+ion-title {
+  --color: var(--text-main) !important;
+  font-size: 16px !important;
+  text-shadow: 
+    2px 2px 0 var(--bg-dark),
+    0 0 10px var(--text-main),
+    0 0 20px var(--text-main) !important;
+  letter-spacing: 2px !important;
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+/* ============================================
+   CONTENT - FUNDO ARCADE VERDE
+   ============================================ */
+ion-content {
+  --background: #0a1f0a !important;
+}
+
+#container {
+  padding: 20px;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 65, 0.05) 2px,
+      rgba(0, 255, 65, 0.05) 4px
+    );
+}
+
+/* ============================================
+   CARDS - ESTILO FLIPPER/ARCADE MACHINE
+   ============================================ */
+ion-card {
+  background: var(--bg-card) !important;
+  border: 4px solid var(--pixel-blue) !important;
+  border-radius: 0 !important;
+  box-shadow: 
+    8px 8px 0 rgba(0, 0, 0, 0.5),
+    inset 0 0 30px rgba(0, 184, 255, 0.1),
+    0 0 20px rgba(0, 184, 255, 0.3) !important;
+  margin: 16px 0 !important;
+  position: relative;
+  overflow: visible !important;
+}
+
+ion-card::before {
+  content: '▼▼▼';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--pixel-blue);
+  font-size: 8px;
+  letter-spacing: 8px;
+  text-shadow: 0 0 10px var(--pixel-blue);
+}
+
+ion-card::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 2px dashed var(--pixel-cyan);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+ion-card-header {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 184, 255, 0.1) 0%,
+    transparent 100%
+  ) !important;
+  border-bottom: 3px solid var(--pixel-cyan) !important;
+  padding: 16px !important;
+}
+
+ion-card-title {
+  color: var(--text-secondary) !important;
+  font-size: 14px !important;
+  text-shadow: 
+    2px 2px 0 var(--bg-dark),
+    0 0 10px var(--pixel-yellow) !important;
+  letter-spacing: 1px !important;
+  line-height: 2 !important;
+}
+
+ion-card-content {
+  padding: 16px !important;
+}
+
+/* ============================================
+   INPUTS/FORMS - ESTILO TERMINAL RETRO
+   ============================================ */
+ion-item {
+  --background: rgba(0, 0, 0, 0.3) !important;
+  --border-color: var(--pixel-green) !important;
+  border: 2px solid var(--pixel-green) !important;
+  border-radius: 0 !important;
+  margin: 12px 0 !important;
+  box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.1) !important;
+  --padding-start: 16px !important;
+  --padding-end: 16px !important;
+  --min-height: 60px !important;
+}
+
+ion-label {
+  --color: var(--text-main) !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  line-height: 2 !important;
+}
+
+ion-input,
+ion-textarea {
+  --color: var(--pixel-cyan) !important;
+  --placeholder-color: rgba(0, 255, 212, 0.3) !important;
+  font-size: 12px !important;
+  line-height: 2 !important;
+  text-shadow: 0 0 5px var(--pixel-cyan) !important;
+  --padding-top: 12px !important;
+  --padding-bottom: 12px !important;
+}
+
+ion-select {
+  --color: var(--pixel-cyan) !important;
+  font-size: 12px !important;
+  --padding-top: 12px !important;
+  --padding-bottom: 12px !important;
+}
+
+/* ============================================
+   BOTÕES - ESTILO ARCADE BUTTON
+   ============================================ */
+ion-button {
+  --background: var(--pixel-red) !important;
+  --background-hover: var(--pixel-orange) !important;
+  --color: #FFF !important;
+  --border-radius: 0 !important;
+  --box-shadow: 
+    4px 4px 0 rgba(0, 0, 0, 0.5),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 0, 64, 0.5) !important;
+  
+  font-size: 11px !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  border: 3px solid #FFF !important;
+  margin: 8px 0 !important;
+  height: 56px !important;
+  font-weight: bold !important;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.1s ease !important;
+  line-height: 1.6 !important;
+}
+
+ion-button:hover {
+  transform: translate(2px, 2px) !important;
+  --box-shadow: 
+    2px 2px 0 rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(255, 107, 0, 0.8) !important;
+}
+
+ion-button:active {
+  transform: translate(4px, 4px) !important;
+  --box-shadow: none !important;
+}
+
+ion-button[color="medium"] {
+  --background: #555 !important;
+  --background-hover: #666 !important;
+  --box-shadow: 
+    4px 4px 0 rgba(0, 0, 0, 0.5),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+ion-button[disabled] {
+  opacity: 0.4 !important;
+  filter: grayscale(1) !important;
+}
+
+/* ============================================
+   LISTA - ESTILO SCOREBOARD ARCADE
+   ============================================ */
+ion-list {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+ion-list-header {
+  background: var(--bg-panel) !important;
+  border: 3px solid var(--pixel-yellow) !important;
+  border-radius: 0 !important;
+  margin: 20px 0 16px 0 !important;
+  padding: 12px 16px !important;
+  box-shadow: 
+    4px 4px 0 rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(255, 215, 0, 0.3) !important;
+}
+
+ion-list-header ion-label {
+  color: var(--pixel-yellow) !important;
+  font-size: 13px !important;
+  text-shadow: 
+    2px 2px 0 var(--bg-dark),
+    0 0 10px var(--pixel-yellow) !important;
+}
+
+ion-item-sliding ion-item {
+  --background: var(--bg-card) !important;
+  border: 2px solid var(--pixel-purple) !important;
+  margin: 8px 0 !important;
+  box-shadow: 
+    4px 4px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 15px rgba(139, 0, 255, 0.1) !important;
+  position: relative;
+  --padding-top: 16px !important;
+  --padding-bottom: 16px !important;
+  --min-height: 80px !important;
+}
+
+ion-item-sliding ion-item::before {
+  content: '■';
+  position: absolute;
+  left: 8px;
   top: 50%;
   transform: translateY(-50%);
+  color: var(--pixel-purple);
+  font-size: 12px;
+  animation: blink 1s infinite;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+ion-item h2 {
+  color: var(--pixel-cyan) !important;
+  font-size: 13px !important;
+  text-shadow: 0 0 5px var(--pixel-cyan) !important;
+  line-height: 2.2 !important;
+  margin-bottom: 12px !important;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+ion-item p {
+  color: var(--text-main) !important;
+  font-size: 16px !important;
+  line-height: 2.2 !important;
+  margin-top: 12px !important;
+  opacity: 0.9;
 }
 
-#container a {
-  text-decoration: none;
+ion-note {
+  color: var(--pixel-pink) !important;
+  font-size: 11px !important;
+  text-shadow: 0 0 5px var(--pixel-pink) !important;
+}
+
+/* ============================================
+   ITEM OPTIONS - BOTÕES LATERAIS
+   ============================================ */
+ion-item-options {
+  border: none !important;
+}
+
+ion-item-option {
+  --background: var(--pixel-blue) !important;
+  font-size: 10px !important;
+  border: 2px solid #FFF !important;
+  margin: 8px 4px !important;
+}
+
+ion-item-option[color="danger"] {
+  --background: var(--pixel-red) !important;
+}
+
+ion-item-option ion-icon {
+  font-size: 24px !important;
+  filter: drop-shadow(0 0 5px #FFF);
+}
+
+/* ============================================
+   ÍCONES - ESTILO PIXEL
+   ============================================ */
+ion-icon {
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+ion-icon[name="diamond-outline"],
+ion-icon[name="cube-outline"] {
+  color: var(--pixel-yellow) !important;
+}
+
+ion-icon[name="location-outline"],
+ion-icon[name="map-outline"] {
+  color: var(--pixel-blue) !important;
+}
+
+ion-icon[name="warning-outline"],
+ion-icon[name="skull-outline"] {
+  color: var(--pixel-red) !important;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ============================================
+   ANIMAÇÕES ARCADE
+   ============================================ */
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes textGlow {
+  0% { 
+    text-shadow: 
+      2px 2px 0 var(--bg-dark),
+      0 0 10px var(--text-main),
+      0 0 20px var(--text-main);
+  }
+  100% { 
+    text-shadow: 
+      2px 2px 0 var(--bg-dark),
+      0 0 20px var(--text-main),
+      0 0 40px var(--text-main),
+      0 0 60px var(--text-main);
+  }
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px currentColor);
+  }
+  50% { 
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+}
+
+/* ============================================
+   MENSAGEM VAZIA - ESTILO GAME OVER
+   ============================================ */
+.ion-text-center p {
+  color: var(--pixel-red) !important;
+  font-size: 13px !important;
+  text-shadow: 
+    2px 2px 0 var(--bg-dark),
+    0 0 20px var(--pixel-red) !important;
+  animation: blink 2s infinite;
+  letter-spacing: 1px;
+  line-height: 2 !important;
+}
+
+/* ============================================
+   ROW/COL - GRID ARCADE
+   ============================================ */
+ion-row {
+  gap: 8px;
+}
+
+ion-col ion-button {
+  margin: 0 !important;
+}
+
+/* ============================================
+   EFEITO CRT SCANLINES (OPCIONAL)
+   ============================================ */
+ion-content::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    transparent 1px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 3px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  animation: scanline 10s linear infinite;
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+@media (max-width: 576px) {
+  ion-title {
+    font-size: 13px !important;
+  }
+  
+  ion-card-title {
+    font-size: 12px !important;
+  }
+  
+  ion-button {
+    font-size: 10px !important;
+    height: 52px !important;
+  }
+  
+  ion-item h2 {
+    font-size: 12px !important;
+  }
+  
+  ion-item p {
+    font-size: 14px !important;
+  }
+  
+  ion-note {
+    font-size: 10px !important;
+  }
 }

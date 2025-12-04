@@ -1,20 +1,127 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar >
     <ion-title>
-      Blank
+      Diário Faísca 
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+    <ion-toolbar color="primary">
+      <ion-title size="large">Diário de Faísca</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    
+    <ion-card *ngIf="registroParaEditar">
+      <ion-card-header>
+        <ion-card-title>Editando Registro (ID: {{ registroParaEditar.id }}) ✏️</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Título/Nome</ion-label>
+          <ion-input [(ngModel)]="registroParaEditar.titulo" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Detalhes</ion-label>
+          <ion-textarea [(ngModel)]="registroParaEditar.descricao"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Tipo de Item</ion-label>
+          <ion-select [(ngModel)]="registroParaEditar.tipo">
+            <ion-select-option value="Recurso">Recursos Encontrados</ion-select-option>
+            <ion-select-option value="Local">Locais Importantes</ion-select-option>
+            <ion-select-option value="Perigo">Perigos e Criaturas</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-row class="ion-padding-top">
+            <ion-col size="6">
+                <ion-button expand="block" color="medium" (click)="cancelarEdicao()">
+                    Cancelar
+                </ion-button>
+            </ion-col>
+            <ion-col size="6">
+                <ion-button expand="block" (click)="salvarEdicao()" [disabled]="!registroParaEditar.titulo || isSaving">
+                    <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                    Salvar Edição
+                </ion-button>
+            </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card *ngIf="!registroParaEditar">
+      <ion-card-header>
+        <ion-card-title>Novo Registro </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Título/Nome</ion-label>
+          <ion-input [(ngModel)]="novoRegistro.titulo" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Detalhes</ion-label>
+          <ion-textarea [(ngModel)]="novoRegistro.descricao"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Tipo de Item</ion-label>
+          <ion-select [(ngModel)]="novoRegistro.tipo">
+            <ion-select-option value="Recurso">Recursos Encontrados</ion-select-option>
+            <ion-select-option value="Local">Locais Importantes</ion-select-option>
+            <ion-select-option value="Perigo">Perigos e Criaturas</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button expand="block" 
+            (click)="adicionarNovoRegistro()" 
+            [disabled]="!novoRegistro.titulo || isSaving"> 
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          {{ isSaving ? 'Catalogando...' : 'Catalogar Descoberta' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list *ngIf="(registros$ | async) as registros">
+      <ion-list-header>
+        <ion-label>Registros Anteriores ({{ registros.length }})</ion-label>
+      </ion-list-header>
+
+      <ion-item-sliding *ngFor="let registro of registros">
+        
+        <ion-item-options side="start">
+          <ion-item-option (click)="iniciarEdicao(registro)">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+        
+        <ion-item>
+          <ion-icon slot="start" [name]="getIconeTipo(registro.tipo)"></ion-icon>
+          <ion-label>
+            <h2>{{ registro.titulo }} <ion-note color="medium">({{ registro.tipo }})</ion-note></h2>
+            <p>{{ registro.descricao }}</p>
+          </ion-label>
+          <ion-note slot="end">
+            {{ registro.dataRegistro | date:'short' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="excluirRegistro(registro.id)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <div *ngIf="registros.length === 0" class="ion-padding ion-text-center">
+        <p>O diário de Faísca está vazio. Comece a catalogar!</p>
+      </div>
+    </ion-list>
   </div>
 </ion-content>
